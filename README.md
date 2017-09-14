@@ -54,38 +54,6 @@ Status of the API could be checked at [http://localhost:5000/docs](http://localh
 * `bin/ci` - should be used in the CI or locally
 * `bin/server` - to run server locally
 
-### Serializers
-
-### PaginatedArraySerializer
-
-Use that serializer if you want to add meta with pagination info on response
-
-```ruby
-def index
-  respond_with(
-    posts,
-    serializer: PaginatedArraySerializer
-  )
-end
-```
-
-The above usage of `PaginatedArraySerializer` will produce the following:
-
-```json
-{
-  "meta": {
-    "pagination": {
-      "total":46,
-      "per_page":2,
-      "page":1
-    }
-  },
-  "posts": [
-    { "title": "Post 1", "body": "Hello!" },
-    { "title": "Post 2", "body": "Goodbye!" }
-  ]
-}
-```
 
 ## Quick start
 
@@ -121,21 +89,45 @@ Run app
 bin/server
 ```
 
-**Do not forget to update this file!**
 
-```bash
-mv doc/README_TEMPLATE.md README.md
-# update README.md
-git commit -am "Update README.md"
-```
 
-### Restrict access to documentation
+## Interview Exercice
 
-You can enable restrict access to documentation by adding `APITOME_USER` and `APITOME_PASSWORD` environment variables. Can be useful on staging environment.
+###API with rate limitation
 
-## Examples
 
-Please check how to build API endpoints and test them properly in the
-[examples branch](https://github.com/fs/rails-base-api/tree/examples)
+We are given you here a RoR API application that allows to manage a simple blog.
+The API and project setup is already implemented. you have authentication for all endpoints and you can manage Posts and Comments via the following API calls:
 
-[<img src="http://www.flatstack.com/logo.svg" width="100"/>](http://www.flatstack.com)
+- POST /login
+- GET /posts
+- GET /posts/:post_id
+- POST /posts
+- GET /posts/:post_id/comments
+- POST /posts/:post_id/comments
+- PUT /posts/:post_id/comments/:comment_id
+- DELETE /posts/:post_id/comments/:comment_id
+
+Given this API, you should implement a rate limitation system that allows to control finely how many calls per period a user can make.
+
+These are the requirements for the work:
+
+1 - An authenticated user can only make x API calls per rate limit window. By default x = 15 and the default rate limit window is 15 sec, so by default a user can make 15 requests / 15sec. Take into account that some endpoints might need different rate limit configuration (see point 4)
+
+2 - The API must return an rate limit error when the limit has been reached
+
+3 -  Application needs to be tested
+
+4 - The rate limit configuration must be easily configurable (a user interface is not needed). To give you an example, you will configure it with this default settings:
+
+- POST /posts:  x = 2, limit_window = 60. (2 requests / minute)
+- GET endpoints on posts, x =  60 within the default limit window. (60 requests / 15sec)
+- for all the other endpoints we use the  default configuration (15 requests / 15sec).
+
+5 - Care must be taken to implement well written and that scales gracefully.
+
+
+You should not spend more than a day for this exercice, if you do jsut commit your wok in progress and I will review the work done. If necessary, you can add an explanation on this readme file about your solution, where you stopped, what is missing or what you could have done better or differently.
+
+Godd luck !
+
