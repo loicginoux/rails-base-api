@@ -129,5 +129,5 @@ These are the requirements for the work:
 
 You should not spend more than a day for this exercice, if you do jsut commit your wok in progress and I will review the work done. If necessary, you can add an explanation on this readme file about your solution, where you stopped, what is missing or what you could have done better or differently.
 
-Godd luck !
+Good luck !
 
